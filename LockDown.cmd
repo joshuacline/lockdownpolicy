@@ -13,6 +13,7 @@ SC CREATE LockDownClear BINPATH="%WinDir%\SYSTEM32\CMD.EXE /C REG.EXE ADD HKLM\S
 CLS&&ECHO LockDown Installed @ %PROGRAMDATA%\LockDown.cmd&&ECHO Start LockDown via Taskmgr Services-tab&&ECHO LockDown will clear on reboot&&SET /P PAUSED=Press (Enter) to continue...
 GOTO:START
 :LOCKDOWN
+TAKEOWN /F "%PROGRAMDATA%\LockDown.cmd" /R /D Y>NUL 2>&1
 SET "LOCKDOWN="&&FOR /F "TOKENS=3 SKIP=1 DELIMS=: " %%a in ('REG QUERY "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v RestrictRun /s') do (IF "%%a"=="0x0" CALL SET "LOCKDOWN=1"
 IF "%%a"=="0x1" CALL SET "LOCKDOWN=0")
 :JUMP
